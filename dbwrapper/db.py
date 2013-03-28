@@ -17,6 +17,7 @@ class DBWrapper(threading.Thread):
     
     def __init__(self, filename=":memory:", logger=None):
         super(DBWrapper, self).__init__()
+        self.daemon=True
         self._filename = filename
         self._queue = Queue.Queue()
         self._stopped = threading.Event()
@@ -62,7 +63,7 @@ class DBWrapper(threading.Thread):
             elif cmd == "commit":
                 self._log_debug("Database got 'commit' command.")
                 self._connection.commit()
-                self._log.debug("Database changes committed.")
+                self._log_debug("Database changes committed.")
                 q.put([])
                 continue
                 
